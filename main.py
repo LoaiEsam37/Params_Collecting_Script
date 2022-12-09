@@ -1,7 +1,6 @@
 import re
 import requests
 from bs4 import BeautifulSoup # pip3 install bs4
-import datetime
 def main():
     # Inputs >>>>>>>>>>
     InputPath = "./input" # FilePath for Input
