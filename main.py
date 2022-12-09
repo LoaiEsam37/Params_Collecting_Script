@@ -1,6 +1,6 @@
 import re
 import requests
-from bs4 import BeautifulSoup # pip3 install bs4
+from bs4 import BeautifulSoup  # pip3 install bs4
 def main():
     # Inputs >>>>>>>>>>
     InputPath = "./input" # FilePath for Input
