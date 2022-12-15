@@ -1,11 +1,12 @@
 import re
 import requests
-from bs4 import BeautifulSoup  # pip3 install bs4
+from urllib.parse import urljoin
+from bs4 import BeautifulSoup # pip3 install bs4
 def main():
     # Inputs >>>>>>>>>>
-    InputPath = "./input" # FilePath for Input
+    InputPath = "./urls" # FilePath for Input
     OutputPath = "./output" # FilePath for Output
-    Write_To_Output = False # to Write the output to a {OutputPath}
+    Write_To_Output = True # to Write the output to a {OutputPath}
     Show_Info = False # to print Infomation about every process
     Show_Urls = True # to print params to console
     Show_Errors = False # to print errors if errors occuried (This Function won`t stop the code from continue)
@@ -35,65 +36,42 @@ def main():
             # collect forms
             actions = list(map(lambda form: form["action"], soup.findAll('form'))) # Collect all forms in html
             # put all together : params => inputs["name", "value"], links => a["href"], actions => forms["action"]
-            # RegEx >>>>>>>>>>
             for action in actions:
                 for l in links:
+                    i = urljoin(action, params)
                     try:
                         # l + params
-                        if l[len(l)-1:] == "/" or l[len(l)-1:] == "&":
-                            DNS1 = l + params
-                        else:
-                            DNS1 = l + "&" + params
-                        if Show_Urls == True:
-                            print(DNS1)
-                    except Exception as e:
-                        if Show_Errors == True:
-                            print(f"[ ! ]", e)
-                    try:
-                        # l + action + params
-                        if l[len(l)-1:] == "/":
-                            DNS2 = l + action[1:] + params
-                        elif l[len(l)-1:] == "&":
-                            if l[len(l)-2:] == "/":
-                                DNS2 = l[:-2] + action + params
-                            else:
-                                DNS2 = l[:-1] + action + params
-                        else:
-                            DNS2 = l + action + params
-                        if Show_Urls == True:
-                            print(DNS2)
-                    except Exception as e:
-                        if Show_Errors == True:
-                            print(f"[ ! ]", e)
-                    try:
-                        # res.url + params
-                        if res.url[len(res.url)-1:] == "/" or l[len(l)-1:] == "&":
-                            DNS3 = res.ur + params
-                        else:
-                            DNS3 = res.ur + "&" + params
+                        DNS1 = urljoin(l, params)
                         if Show_Urls == True:
                             print(DNS3)
                     except Exception as e:
                         if Show_Errors == True:
                             print(f"[ ! ]", e)
                     try:
-                        # res.url + action + params
-                        if res.url[len(res.url)-1:] == "/":
-                            DNS4 = res.url + action[1:] + params
-                        elif res.url[len(res.url)-1:] == "&":
-                            if res.url[len(res.url)-2:] == "/":
-                                DNS4 = res.url[:-2] + action + params
-                            else:
-                                DNS4 = res.url[:-1] + action + params
-                        else:
-                            DNS4 = res.url + action + params
+                        # l + action + params
+                        DNS2 = urljoin(l, i)
                         if Show_Urls == True:
-                            print(DNS4)
+                            print(DNS3)
                     except Exception as e:
                         if Show_Errors == True:
                             print(f"[ ! ]", e)
-            # <<<<<<<<<< RegEx
-                    # Print Section >>>>>>>>>>
+                try:
+                    # res.url + params
+                    DNS3 = urljoin(res.url, params)
+                    if Show_Urls == True:
+                        print(DNS3)
+                except Exception as e:
+                    if Show_Errors == True:
+                        print(f"[ ! ]", e)
+                try:
+                    # res.url + action + params
+                    DNS4 = urljoin(res.url, i)
+                    if Show_Urls == True:
+                        print(DNS4)
+                except Exception as e:
+                    if Show_Errors == True:
+                        print(f"[ ! ]", e)
+                    # Output Section >>>>>>>>>>
                     if Write_To_Output == True:
                         try:
                             with open(OutputPath, "a") as f:
@@ -123,5 +101,5 @@ def main():
         except Exception as e:
             if Show_Errors == True:
                 print(f"[ ! ]", e)
-                    # <<<<<<<<<< Print Section
+                    # <<<<<<<<<< Output Section
 main()
