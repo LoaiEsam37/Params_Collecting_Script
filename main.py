@@ -2,12 +2,11 @@ import re
 import requests
 from urllib.parse import urljoin
 from bs4 import BeautifulSoup # pip3 install bs4
-import datetime
 def main():
     # Inputs >>>>>>>>>>
     InputPath = "./urls" # FilePath for Input
     OutputPath = "./output" # FilePath for Output
-    Write_To_Output = True # to Write the output to a {OutputPath}
+    Write_To_Output = False # to Write the output to a {OutputPath}
     Show_Info = False # to print Infomation about every process
     Show_Urls = True # to print params to console
     Show_Errors = False # to print errors if errors occuried (This Function won`t stop the code from continue)
@@ -19,9 +18,8 @@ def main():
         try:
             res = requests.get(url)
             soup = BeautifulSoup(res.content, "html.parser")
-            # collect inputs
             params = []
-            for input in soup.findAll("input"): # Collect all inputs in html
+            for input in soup.findAll("input"):
                 try:
                     params.append("?" + input["name"] + "=" + input["value"] + "&")
                 except Exception as e:
@@ -29,14 +27,11 @@ def main():
                         print(f"[ ! ]", e)
             if Show_Info == True:
                 inputs = params
-            params = "".join(params)[:-1] # Put all params together and ( [:-1] is for delete & from the end of url)
+            params = "".join(params)[:-1]
             if params == "":
                 continue
-            # collect hyperlinks
-            links = list(map(lambda link: link["href"], soup.findAll('a', attrs={'href': re.compile("^http://")}))) # Collect all a in html
-            # collect forms
-            actions = list(map(lambda form: form["action"], soup.findAll('form'))) # Collect all forms in html
-            # put all together : params => inputs["name", "value"], links => a["href"], actions => forms["action"]
+            links = list(map(lambda link: link["href"], soup.findAll('a', attrs={'href': re.compile("^http://")})))
+            actions = list(map(lambda form: form["action"], soup.findAll('form')))
             for action in actions:
                 for l in links:
                     i = urljoin(action, params)
@@ -49,14 +44,12 @@ def main():
                         if Show_Errors == True:
                             print(f"[ ! ]", e)
                     try:
-                        # l + action + params
                         DNS2 = urljoin(l, i)
                         if Show_Urls == True:
                             print(DNS2)
                     except Exception as e:
                         if Show_Errors == True:
                             print(f"[ ! ]", e)
-                    # Output Section >>>>>>>>>>
                     if Write_To_Output == True:
                         try:
                             with open(OutputPath, "a") as f:
@@ -86,8 +79,4 @@ def main():
         except Exception as e:
             if Show_Errors == True:
                 print(f"[ ! ]", e)
-                    # <<<<<<<<<< Output Section
-t1 = datetime.datetime.now()
 main()
-t2 = datetime.datetime.now()
-print(t2-t1)
