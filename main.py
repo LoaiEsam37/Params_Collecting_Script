@@ -59,12 +59,6 @@ def main():
                                 try:
                                     f.writelines(f"{DNS2}\n")
                                 except: pass
-                                try:
-                                    f.writelines(f"{DNS3}\n")
-                                except: pass
-                                try:
-                                    f.writelines(f"{DNS4}\n")
-                                except: pass
                         except Exception as e:
                             if Show_Errors == True:
                                 print(f"[ ! ]", e)
