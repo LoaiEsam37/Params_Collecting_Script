@@ -68,9 +68,9 @@ def main():
                     try:
                         # res.url + params
                         if res.url[len(res.url)-1:] == "/" or l[len(l)-1:] == "&":
-                            DNS3 = l + params
+                            DNS3 = res.ur + params
                         else:
-                            DNS3 = l + "&" + params
+                            DNS3 = res.ur + "&" + params
                         if Show_Urls == True:
                             print(DNS3)
                     except Exception as e:
