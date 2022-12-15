@@ -43,7 +43,7 @@ def main():
                         # l + params
                         DNS1 = urljoin(l, params)
                         if Show_Urls == True:
-                            print(DNS3)
+                            print(DNS1)
                     except Exception as e:
                         if Show_Errors == True:
                             print(f"[ ! ]", e)
@@ -51,26 +51,26 @@ def main():
                         # l + action + params
                         DNS2 = urljoin(l, i)
                         if Show_Urls == True:
-                            print(DNS3)
+                            print(DNS2)
                     except Exception as e:
                         if Show_Errors == True:
                             print(f"[ ! ]", e)
                 try:
-                    # res.url + params
-                    DNS3 = urljoin(res.url, params)
+                    # res.url + action + params
+                    DNS3 = urljoin(res.url, i)
                     if Show_Urls == True:
                         print(DNS3)
                 except Exception as e:
                     if Show_Errors == True:
                         print(f"[ ! ]", e)
-                try:
-                    # res.url + action + params
-                    DNS4 = urljoin(res.url, i)
-                    if Show_Urls == True:
-                        print(DNS4)
-                except Exception as e:
-                    if Show_Errors == True:
-                        print(f"[ ! ]", e)
+            try:
+                # res.url + params
+                DNS4 = urljoin(res.url, params)
+                if Show_Urls == True:
+                    print(DNS4)
+            except Exception as e:
+                if Show_Errors == True:
+                    print(f"[ ! ]", e)
                     # Output Section >>>>>>>>>>
                     if Write_To_Output == True:
                         try:
