@@ -2,6 +2,7 @@ import re
 import requests
 from urllib.parse import urljoin
 from bs4 import BeautifulSoup # pip3 install bs4
+import datetime
 def main():
     # Inputs >>>>>>>>>>
     InputPath = "./urls" # FilePath for Input
@@ -55,22 +56,6 @@ def main():
                     except Exception as e:
                         if Show_Errors == True:
                             print(f"[ ! ]", e)
-                try:
-                    # res.url + action + params
-                    DNS3 = urljoin(res.url, i)
-                    if Show_Urls == True:
-                        print(DNS3)
-                except Exception as e:
-                    if Show_Errors == True:
-                        print(f"[ ! ]", e)
-            try:
-                # res.url + params
-                DNS4 = urljoin(res.url, params)
-                if Show_Urls == True:
-                    print(DNS4)
-            except Exception as e:
-                if Show_Errors == True:
-                    print(f"[ ! ]", e)
                     # Output Section >>>>>>>>>>
                     if Write_To_Output == True:
                         try:
@@ -102,4 +87,7 @@ def main():
             if Show_Errors == True:
                 print(f"[ ! ]", e)
                     # <<<<<<<<<< Output Section
+t1 = datetime.datetime.now()
 main()
+t2 = datetime.datetime.now()
+print(t2-t1)
